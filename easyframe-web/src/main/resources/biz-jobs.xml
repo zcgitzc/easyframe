@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd"
+	default-autowire="byName">
+
+	<!-- Listener start -->
+<!-- 	<bean id="jobLocaleListener"
+		class="com.zark.easyframe.biz.common.job.listener.JobLocaleListener" /> -->
+	<bean id="jobLifeCycleListener"
+		class="com.zark.easyframe.biz.common.job.listener.JobLifeCycleListener" />
+<!-- 	<bean id="jobCacheListner"
+		class="com.zark.easyframe.biz.common.job.listener.JobCacheListener" /> -->
+	<bean id="jobStatusStageListener"
+		class="com.zark.easyframe.biz.common.job.listener.JobStatusStageListener" />
+	<!-- Listener end -->
+
+	<bean class="com.zark.easyframe.common.job.impl.DefaultThreadPoolJobExecutor">
+		<property name="jobExecutor">
+			<bean
+				class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+				<property name="corePoolSize" value="5" />
+				<property name="maxPoolSize" value="30" />
+				<property name="queueCapacity" value="100" />
+				<property name="threadNamePrefix" value="Job_Thread_" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="jobDetailParent" class="com.zark.easyframe.common.job.JobDetail" abstract="true">
+		<property name="listeners">
+			<list>
+				<!-- <ref bean="jobLocaleListener" /> -->
+				<ref bean="jobLifeCycleListener" />
+				<!-- <ref bean="jobCacheListner" /> -->
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="jobStageParent"
+		class="com.zark.easyframe.common.job.DefaultJobStageFactoryBean"
+		abstract="true">
+		<property name="listeners">
+			<list>
+				<ref bean="jobStatusStageListener" />
+			</list>
+		</property>
+	</bean>
+
+
+
+	<!-- 下面正式业务配置 -->
+	<bean id="testJob" class="com.zark.easyframe.biz.common.job.TestJob" />
+
+	<bean parent="jobDetailParent">
+		<property name="name" value="TEST_JOB_EXECUTE_NAME" />
+		<property name="jobStages">
+			<list>
+				<bean parent="jobStageParent">
+					<property name="name" value="METHOD1" />
+					<property name="target">
+						<ref bean="testJob" />
+					</property>
+					<property name="methodName" value="method1" />
+				</bean>
+				<bean parent="jobStageParent">
+					<property name="name" value="METHOD2" />
+					<property name="enableProcessingListener" value="true" />
+					<property name="target">
+						<ref bean="testJob" />
+					</property>
+					<property name="methodName" value="method2" />
+				</bean>
+				<bean parent="jobStageParent">
+					<property name="name" value="METHOD3" />
+					<property name="enableProcessingListener" value="true" />
+					<property name="target">
+						<ref bean="testJob" />
+					</property>
+					<property name="methodName" value="method3" />
+				</bean>
+				<bean parent="jobStageParent">
+					<property name="name" value="METHOD4" />
+					<property name="target">
+						<ref bean="testJob" />
+					</property>
+					<property name="methodName" value="method4" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+</beans>

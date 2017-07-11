@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<appender name="Console" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>%d{H:mm} %-5level [%logger{16}] %msg%n</pattern>
+		</encoder>
+	</appender>
+
+	<appender name="ALL_INFO"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${loggingRoot}/all.log</file>
+        <encoding>${loggingCharset}</encoding>
+        <append>true</append>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${loggingRoot}/all.log.%d{yyyy-MM-dd}</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder>
+			<pattern><![CDATA[
+				%n%-4r [%X{HOST_IP}] [%d{yyyy-MM-dd HH:mm:ss}] [%thread] %-5level %logger{35} - %m%n
+			 ]]></pattern>
+        </encoder>
+	</appender>
+
+
+	<appender name="ALL_ERROR"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<filter class="ch.qos.logback.classic.filter.LevelFilter">
+			<level>ERROR</level>
+			<onMatch>ACCEPT</onMatch>
+			<onMismatch>DENY</onMismatch>
+		</filter>
+		<file>${loggingRoot}/error.log</file>
+        <encoding>${loggingCharset}</encoding>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<FileNamePattern>${loggingRoot}/error.%d{yyyy-MM-dd}
+			</FileNamePattern>
+			<MaxHistory>30</MaxHistory>
+		</rollingPolicy>
+		<encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+			<layout class="ch.qos.logback.classic.PatternLayout">
+				<pattern><![CDATA[
+					%n%-4r [%X{HOST_IP}] [%d{yyyy-MM-dd HH:mm:ss}] [%thread] %-5level %logger{35} - %m%n
+				 ]]></pattern>
+			</layout>
+		</encoder>
+	</appender>
+
+
+	<appender name="SQL"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${loggingRoot}/sql.log</file>
+		<filter class="ch.qos.logback.classic.filter.LevelFilter">
+			<level>DEBUG</level>
+			<onMatch>ACCEPT</onMatch>
+			<onMismatch>DENY</onMismatch>
+		</filter>
+		<encoding>${loggingCharset}</encoding>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<FileNamePattern>${loggingRoot}/sql.%d{yyyy-MM-dd}
+			</FileNamePattern>
+			<MaxHistory>30</MaxHistory>
+		</rollingPolicy>
+		<encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+			<layout class="ch.qos.logback.classic.PatternLayout">
+				<pattern><![CDATA[
+					%n%-4r [%X{HOST_IP}] [%d{yyyy-MM-dd HH:mm:ss}] [%thread] %-5level %logger{35} - %m%n
+				 ]]></pattern>
+			</layout>
+		</encoder>
+	</appender>
+
+	<logger name="mapper" level="DEBUG">
+		<appender-ref ref="SQL" />
+	</logger>
+	
+
+	<root level="${loggingLevel}">
+		<appender-ref ref="ALL_INFO" />
+		<appender-ref ref="ALL_ERROR" />
+		<!-- 有定时器，不要在控制台输出日志信息
+		<appender-ref ref="Console" /> -->
+	</root>
+
+</configuration>

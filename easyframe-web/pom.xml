@@ -1,0 +1,92 @@
+<?xml version="1.0"?>
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.zark</groupId>
+		<artifactId>easyframe</artifactId>
+		<version>${project.module.version}</version>
+	</parent>
+	<artifactId>easyframe-web</artifactId>
+	<packaging>war</packaging>
+	<name>easyframe-web Maven Webapp</name>
+	<url>http://maven.apache.org</url>
+	<dependencies>
+		<dependency>
+			<groupId>com.zark</groupId>
+			<artifactId>easyframe-common</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.zark</groupId>
+			<artifactId>easyframe-biz-common</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.zark</groupId>
+			<artifactId>easyframe-biz-conf</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.zark</groupId>
+			<artifactId>easyframe-entity</artifactId>
+		</dependency>
+	</dependencies>
+	<build>
+		<finalName>easyframe-web</finalName>
+
+		<plugins>
+
+			<plugin>
+				<groupId>com.alibaba.citrus.tool</groupId>
+				<artifactId>autoconfig-maven-plugin</artifactId>
+				<version>1.2</version>
+				<configuration>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>autoconfig</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>2.6</version>
+				<configuration>
+					<resourceEncoding>${project.build.sourceEncoding}
+					</resourceEncoding>
+					<warName>easyframe</warName>
+					<useCache>false</useCache>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>copy-war</id>
+						<phase>package</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<tasks>
+								<echo message="delete old webapp ...."></echo>
+								<delete dir="${CATALINA_HOME}/webapps/easyframe"></delete>
+								<echo message="Copy war file to Tomcat webapps...." />
+								<copy file="target/easyframe.war" todir="${CATALINA_HOME}/webapps"
+									overwrite="true" />
+							</tasks>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+</project>

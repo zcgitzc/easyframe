@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://www.springframework.org/schema/beans" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="
+           http://www.springframework.org/schema/beans   http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd
+           http://www.springframework.org/schema/mvc     http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
+       ">
+
+
+	<!-- 扫描所有的controller 但是不扫描service -->
+	<context:component-scan base-package="com.zark.easyframe">
+		<context:include-filter type="annotation"
+			expression="org.springframework.stereotype.Controller" />
+		<context:include-filter type="annotation"
+			expression="org.springframework.web.bind.annotation.ControllerAdvice" />
+	</context:component-scan>
+
+	<mvc:annotation-driven validator="validator">
+		<mvc:argument-resolvers>
+			<bean
+				class="com.zark.easyframe.common.argresolver.JsonParamArgumentResolver"></bean>
+		</mvc:argument-resolvers>
+
+		<mvc:message-converters register-defaults="false">
+			<!-- 避免IE执行AJAX时,返回JSON出现下载文件 -->
+			<bean id="fastJsonHttpMessageConverter"
+				class="com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter">
+				<property name="supportedMediaTypes">
+					<list>
+						<!-- 这里顺序不能反，一定先写text/html,不然ie下出现下载提示 -->
+						<value>text/html;charset=UTF-8</value>
+						<value>application/json;charset=UTF-8</value>
+					</list>
+				</property>
+			</bean>
+		</mvc:message-converters>
+	</mvc:annotation-driven>
+
+	<!-- 以下 validator ConversionService 在使用 mvc:annotation-driven 会 自动注册 -->
+	<bean id="validator"
+		class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
+		<property name="providerClass" value="org.hibernate.validator.HibernateValidator" />
+		<!-- 如果不加默认到 使用classpath下的 ValidationMessages.properties -->
+		<property name="validationMessageSource" ref="messageSource" />
+	</bean>
+
+	<!-- 国际化的消息资源文件（本系统中主要用于显示/错误消息定制） -->
+	<bean id="messageSource"
+		class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+		<property name="basenames" value="classpath:messages/messages"></property>
+		<property name="useCodeAsDefaultMessage" value="false" />
+		<property name="defaultEncoding" value="UTF-8" />
+		<property name="cacheSeconds" value="0" />
+	</bean>
+
+	<mvc:interceptors>
+		<!-- 国际化操作拦截器 如果采用基于（请求/Session/Cookie）则必需配置 -->
+		<bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor" />
+		<bean class="com.zark.easyframe.biz.common.interceptor.AllInterceptor"></bean>
+	</mvc:interceptors>
+
+	<bean id="localeResolver"
+		class="org.springframework.web.servlet.i18n.SessionLocaleResolver">
+		<property name="defaultLocale" value="zh_CN" />
+	</bean>
+
+	<!-- 视图模式配置,velocity配置文件 -->
+	<bean id="velocityConfig"
+		class="org.springframework.web.servlet.view.velocity.VelocityConfigurer">
+		<property name="resourceLoaderPath" value="/" />
+		<property name="velocityProperties">
+			<props>
+				<prop key="input.encoding">UTF-8</prop>
+				<prop key="output.encoding">UTF-8</prop>
+				<!-- 添加宏文件 -->
+				<!--<prop key="velocimacro.library">conf/VM_global_library.vm,conf/VM_wml_library.vm,conf/VM_wxs_library.vm</prop> -->
+			</props>
+		</property>
+	</bean>
+
+	<bean id="velocityViewResolver"
+		class="org.springframework.web.servlet.view.velocity.VelocityLayoutViewResolver">
+		<property name="prefix" value="/webpage/" />
+		<property name="suffix" value=".vm" />
+		<property name="cache" value="false" />
+		<property name="layoutUrl" value="/webpage/templates/layout/layout.vm" />
+		<!-- 使用springMacro的对象 -->
+		<property name="exposeSpringMacroHelpers" value="true" />
+		<property name="requestContextAttribute" value="content" />
+		<property name="exposeRequestAttributes" value="true" />
+		<property name="order" value="0" />
+		<property name="exposeSessionAttributes" value="true" />
+		<property name="contentType" value="text/html;charset=UTF-8" />
+		<!-- spring的日期格式化 -->
+		<property name="dateToolAttribute" value="dateTool" />
+		<!-- velocity toolbox -->
+		<property name="toolboxConfigLocation" value="/WEB-INF/toolbox.xml" />
+		<property name="viewClass"
+			value="com.zark.easyframe.common.layout.VelocityToolbox20View" />
+	</bean>
+
+	<!-- <bean id="htmlViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver"> 
+		<property name="prefix" value="/webpage/"></property> <property name="suffix" 
+		value=".html"></property> <property name="order" value="1" /> </bean> -->
+
+</beans>

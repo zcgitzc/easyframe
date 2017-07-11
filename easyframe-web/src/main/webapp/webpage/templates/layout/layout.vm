@@ -1,0 +1,11 @@
+<html>  
+    <head>  
+    </head>  
+    <body>  
+        <div id="header">#parse('/webpage/templates/layout/header.vm')</div>  
+        <div id="content">
+            <div id="main">$screen_content</div>  
+        </div>
+        <div id="footer">#parse('/webpage/templates/layout/footer.vm')</div>  
+    </body>
+</html>

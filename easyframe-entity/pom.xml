@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.zark</groupId>
+		<artifactId>easyframe</artifactId>
+		<version>${project.module.version}</version>
+	</parent>
+	<artifactId>easyframe-entity</artifactId>
+	<name>easyframe-entity</name>
+	<url>http://maven.apache.org</url>
+	<dependencies>
+
+		<!-- mybatisgenerator -->
+		<dependency>
+			<groupId>org.mybatis.generator</groupId>
+			<artifactId>mybatis-generator-core</artifactId>
+			<version>1.3.2</version>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<!-- mvn运行命令：mybatis-generator:generate -->
+			<plugin>
+				<groupId>org.mybatis.generator</groupId>
+				<artifactId>mybatis-generator-maven-plugin</artifactId>
+				<version>1.3.2</version>
+				<configuration>
+					<!-- <configurationFile>src/main/resources/mybatis-generator/generatorConfig.xml</configurationFile> -->
+					<skipTests>true</skipTests>
+					<verbose>true</verbose>
+					<encoding>UTF-8</encoding>
+					<overwrite>true</overwrite>
+				</configuration>
+				<dependencies>
+					<!-- mvn install:install-file -DgroupId=com.zark.easyframe -DartifactId=mybatis-generate-plugin 
+						-Dversion=1.0.0 -Dpackaging=jar -Dfile=C:\mybatis-generate-plugin.jar -->
+					<dependency>
+						<groupId>com.zark.easyframe</groupId>
+						<artifactId>mybatis-generate-plugin</artifactId>
+						<version>1.0.0</version>
+					</dependency>
+					<dependency>
+						<groupId>mysql</groupId>
+						<artifactId>mysql-connector-java</artifactId>
+						<version>5.1.29</version>
+						<scope>runtime</scope>
+					</dependency>
+				</dependencies>
+			</plugin>
+		</plugins>
+	</build>
+</project>

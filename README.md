@@ -1,2 +1,2 @@
-#easyframe
-高效框架
+@See [Wiki](https://github.com/zcgitzc/easyframe/wiki)
+-----

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop" 
+	xmlns:parallel="http://www.alibaba.com/schema/parallel"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd
+	http://www.alibaba.com/schema/parallel http://www.alibaba.com/schema/parallel/parallel.xsd
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd"
+	default-autowire="byName">
+
+	<bean id="defaultMQProducer" class="com.alibaba.rocketmq.client.producer.DefaultMQProducer" init-method="start" destroy-method="shutdown">
+		<constructor-arg type="java.lang.String" value="${easyframe_metaq_group}" />
+		<property name="namesrvAddr" value="${easyframe_metaq_namesrvAddr_pub}"/>
+		<property name="vipChannelEnabled" value="${easyframe_metaq_vipChannelEnabled_pub}"/>
+	</bean>
+
+	<bean id="messagePublisher" class="com.zark.easyframe.biz.common.notify.NotifyMessagePublisher">
+        <property name="defaultMQProducer" ref="defaultMQProducer"></property>
+	</bean>
+
+    <bean class="com.zark.easyframe.biz.common.notify.publisher.bo.impl.CommonSelfPublisherBoImpl">
+		<property name="topic" value="${easyframe_metaq_topic}" />
+	</bean>
+</beans>

@@ -1,0 +1,404 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zark.easyframe.common.mapper.JobStatusDoMapperExt" >
+  <resultMap id="BaseResultMap" type="com.zark.easyframe.common.module.JobStatusDo" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="is_deleted" property="isDeleted" jdbcType="VARCHAR" />
+    <result column="creator" property="creator" jdbcType="VARCHAR" />
+    <result column="modifier" property="modifier" jdbcType="VARCHAR" />
+    <result column="gmt_create" property="gmtCreate" jdbcType="TIMESTAMP" />
+    <result column="gmt_modified" property="gmtModified" jdbcType="TIMESTAMP" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="category" property="category" jdbcType="VARCHAR" />
+    <result column="current_stage" property="currentStage" jdbcType="VARCHAR" />
+    <result column="current_stage_num" property="currentStageNum" jdbcType="INTEGER" />
+    <result column="total_stage_num" property="totalStageNum" jdbcType="INTEGER" />
+    <result column="current_dealed_num" property="currentDealedNum" jdbcType="INTEGER" />
+    <result column="current_total_num" property="currentTotalNum" jdbcType="INTEGER" />
+    <result column="has_error" property="hasError" jdbcType="VARCHAR" />
+    <result column="return_value" property="returnValue" jdbcType="VARCHAR" />
+    <result column="exception_class" property="exceptionClass" jdbcType="VARCHAR" />
+    <result column="error_message" property="errorMessage" jdbcType="VARCHAR" />
+    <result column="exception_properties" property="exceptionProperties" jdbcType="VARCHAR" />
+    <result column="finsh_date" property="finshDate" jdbcType="TIMESTAMP" />
+    <result column="start_date" property="startDate" jdbcType="TIMESTAMP" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="job_uuid" property="jobUuid" jdbcType="VARCHAR" />
+    <result column="exception_code_class" property="exceptionCodeClass" jdbcType="VARCHAR" />
+    <result column="exception_code_enum_name" property="exceptionCodeEnumName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, is_deleted, creator, modifier, gmt_create, gmt_modified, description, category, 
+    current_stage, current_stage_num, total_stage_num, current_dealed_num, current_total_num, 
+    has_error, return_value, exception_class, error_message, exception_properties, finsh_date, 
+    start_date, status, job_uuid, exception_code_class, exception_code_enum_name
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.zark.easyframe.common.module.JobStatusDoExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from zk_job_status
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test=" null!=oredCriteria and oredCriteria.size != 0" >
+      and is_deleted = 'n'
+    </if>
+    <if test=" null!=oredCriteria and oredCriteria.size == 0" >
+       where is_deleted = 'n' 
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from zk_job_status
+    where id = #{id,jdbcType=BIGINT}
+    and is_deleted = 'n'
+  </select>
+  <update id="deleteByPrimaryKey" parameterType="com.zark.easyframe.common.module.JobStatusDo" >
+    update zk_job_status set is_deleted = 'y',modifier=#{modifier,jdbcType=VARCHAR},gmt_modified=NOW() where ID = #{id,jdbcType=NUMERIC}
+  </update>
+  <insert id="insertSelective" parameterType="com.zark.easyframe.common.module.JobStatusDo" keyProperty="id" useGeneratedKeys="true" >
+    insert into zk_job_status
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="creator == null" >
+        creator,
+      </if>
+      <if test="modifier == null" >
+        modifier,
+      </if>
+      <if test="gmtModified == null" >
+        gmt_modified,
+      </if>
+      <if test="gmtCreate == null" >
+        gmt_create,
+      </if>
+      <if test="isDeleted == null" >
+        is_deleted,
+      </if>
+      <if test="isDeleted != null" >
+        is_deleted,
+      </if>
+      <if test="creator != null" >
+        creator,
+      </if>
+      <if test="modifier != null" >
+        modifier,
+      </if>
+      <if test="gmtCreate != null" >
+        gmt_create,
+      </if>
+      <if test="gmtModified != null" >
+        gmt_modified,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+      <if test="category != null" >
+        category,
+      </if>
+      <if test="currentStage != null" >
+        current_stage,
+      </if>
+      <if test="currentStageNum != null" >
+        current_stage_num,
+      </if>
+      <if test="totalStageNum != null" >
+        total_stage_num,
+      </if>
+      <if test="currentDealedNum != null" >
+        current_dealed_num,
+      </if>
+      <if test="currentTotalNum != null" >
+        current_total_num,
+      </if>
+      <if test="hasError != null" >
+        has_error,
+      </if>
+      <if test="returnValue != null" >
+        return_value,
+      </if>
+      <if test="exceptionClass != null" >
+        exception_class,
+      </if>
+      <if test="errorMessage != null" >
+        error_message,
+      </if>
+      <if test="exceptionProperties != null" >
+        exception_properties,
+      </if>
+      <if test="finshDate != null" >
+        finsh_date,
+      </if>
+      <if test="startDate != null" >
+        start_date,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="jobUuid != null" >
+        job_uuid,
+      </if>
+      <if test="exceptionCodeClass != null" >
+        exception_code_class,
+      </if>
+      <if test="exceptionCodeEnumName != null" >
+        exception_code_enum_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="creator == null" >
+        'system',
+      </if>
+      <if test="modifier == null" >
+        'system',
+      </if>
+      <if test="gmtModified == null" >
+        NOW(),
+      </if>
+      <if test="gmtCreate == null" >
+        NOW(),
+      </if>
+      <if test="isDeleted == null" >
+        'n',
+      </if>
+      <if test="isDeleted != null" >
+        #{isDeleted,jdbcType=VARCHAR},
+      </if>
+      <if test="creator != null" >
+        #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="modifier != null" >
+        #{modifier,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtCreate != null" >
+        #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null" >
+        #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="category != null" >
+        #{category,jdbcType=VARCHAR},
+      </if>
+      <if test="currentStage != null" >
+        #{currentStage,jdbcType=VARCHAR},
+      </if>
+      <if test="currentStageNum != null" >
+        #{currentStageNum,jdbcType=INTEGER},
+      </if>
+      <if test="totalStageNum != null" >
+        #{totalStageNum,jdbcType=INTEGER},
+      </if>
+      <if test="currentDealedNum != null" >
+        #{currentDealedNum,jdbcType=INTEGER},
+      </if>
+      <if test="currentTotalNum != null" >
+        #{currentTotalNum,jdbcType=INTEGER},
+      </if>
+      <if test="hasError != null" >
+        #{hasError,jdbcType=VARCHAR},
+      </if>
+      <if test="returnValue != null" >
+        #{returnValue,jdbcType=VARCHAR},
+      </if>
+      <if test="exceptionClass != null" >
+        #{exceptionClass,jdbcType=VARCHAR},
+      </if>
+      <if test="errorMessage != null" >
+        #{errorMessage,jdbcType=VARCHAR},
+      </if>
+      <if test="exceptionProperties != null" >
+        #{exceptionProperties,jdbcType=VARCHAR},
+      </if>
+      <if test="finshDate != null" >
+        #{finshDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="startDate != null" >
+        #{startDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="jobUuid != null" >
+        #{jobUuid,jdbcType=VARCHAR},
+      </if>
+      <if test="exceptionCodeClass != null" >
+        #{exceptionCodeClass,jdbcType=VARCHAR},
+      </if>
+      <if test="exceptionCodeEnumName != null" >
+        #{exceptionCodeEnumName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.zark.easyframe.common.module.JobStatusDoExample" resultType="java.lang.Integer" >
+    select count(*) from zk_job_status
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test=" null!=oredCriteria and oredCriteria.size != 0" >
+      and is_deleted = 'n'
+    </if>
+    <if test=" null!=oredCriteria and oredCriteria.size == 0" >
+       where is_deleted = 'n' 
+    </if>
+  </select>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zark.easyframe.common.module.JobStatusDo" >
+    update zk_job_status
+    <set >
+      <if test="isDeleted != null" >
+        is_deleted = #{isDeleted,jdbcType=VARCHAR},
+      </if>
+      <if test="creator != null" >
+        creator = #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="modifier != null" >
+        modifier = #{modifier,jdbcType=VARCHAR},
+      </if>
+      <if test="modifier == null" >
+        modifier = 'system',
+      </if>
+      <if test="gmtCreate != null" >
+        gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified == null" >
+        gmt_modified = NOW(),
+      </if>
+      <if test="gmtModified != null" >
+        gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="description != null" >
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="category != null" >
+        category = #{category,jdbcType=VARCHAR},
+      </if>
+      <if test="currentStage != null" >
+        current_stage = #{currentStage,jdbcType=VARCHAR},
+      </if>
+      <if test="currentStageNum != null" >
+        current_stage_num = #{currentStageNum,jdbcType=INTEGER},
+      </if>
+      <if test="totalStageNum != null" >
+        total_stage_num = #{totalStageNum,jdbcType=INTEGER},
+      </if>
+      <if test="currentDealedNum != null" >
+        current_dealed_num = #{currentDealedNum,jdbcType=INTEGER},
+      </if>
+      <if test="currentTotalNum != null" >
+        current_total_num = #{currentTotalNum,jdbcType=INTEGER},
+      </if>
+      <if test="hasError != null" >
+        has_error = #{hasError,jdbcType=VARCHAR},
+      </if>
+      <if test="returnValue != null" >
+        return_value = #{returnValue,jdbcType=VARCHAR},
+      </if>
+      <if test="exceptionClass != null" >
+        exception_class = #{exceptionClass,jdbcType=VARCHAR},
+      </if>
+      <if test="errorMessage != null" >
+        error_message = #{errorMessage,jdbcType=VARCHAR},
+      </if>
+      <if test="exceptionProperties != null" >
+        exception_properties = #{exceptionProperties,jdbcType=VARCHAR},
+      </if>
+      <if test="finshDate != null" >
+        finsh_date = #{finshDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="startDate != null" >
+        start_date = #{startDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="jobUuid != null" >
+        job_uuid = #{jobUuid,jdbcType=VARCHAR},
+      </if>
+      <if test="exceptionCodeClass != null" >
+        exception_code_class = #{exceptionCodeClass,jdbcType=VARCHAR},
+      </if>
+      <if test="exceptionCodeEnumName != null" >
+        exception_code_enum_name = #{exceptionCodeEnumName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+    and is_deleted = 'n'
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zark.easyframe.common.module.JobStatusDo" >
+    update zk_job_status
+    set is_deleted = #{isDeleted,jdbcType=VARCHAR},
+      creator = #{creator,jdbcType=VARCHAR},
+      modifier = #{modifier,jdbcType=VARCHAR},
+      gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+      description = #{description,jdbcType=VARCHAR},
+      category = #{category,jdbcType=VARCHAR},
+      current_stage = #{currentStage,jdbcType=VARCHAR},
+      current_stage_num = #{currentStageNum,jdbcType=INTEGER},
+      total_stage_num = #{totalStageNum,jdbcType=INTEGER},
+      current_dealed_num = #{currentDealedNum,jdbcType=INTEGER},
+      current_total_num = #{currentTotalNum,jdbcType=INTEGER},
+      has_error = #{hasError,jdbcType=VARCHAR},
+      return_value = #{returnValue,jdbcType=VARCHAR},
+      exception_class = #{exceptionClass,jdbcType=VARCHAR},
+      error_message = #{errorMessage,jdbcType=VARCHAR},
+      exception_properties = #{exceptionProperties,jdbcType=VARCHAR},
+      finsh_date = #{finshDate,jdbcType=TIMESTAMP},
+      start_date = #{startDate,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=VARCHAR},
+      job_uuid = #{jobUuid,jdbcType=VARCHAR},
+      exception_code_class = #{exceptionCodeClass,jdbcType=VARCHAR},
+      exception_code_enum_name = #{exceptionCodeEnumName,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+    and is_deleted = 'n'
+  </update>
+  <sql id="MySqlDialectSuffix" >
+    <if test="page != null" >
+      <![CDATA[  limit #{page.begin},#{page.end}  ]]>
+    </if>
+  </sql>
+</mapper>

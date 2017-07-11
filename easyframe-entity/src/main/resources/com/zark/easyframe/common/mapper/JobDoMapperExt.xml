@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zark.easyframe.common.mapper.JobDoMapperExt">
+	<select id="queryByGroupAndName" resultMap="BaseResultMap">
+		SELECT
+			<include refid="Base_Column_List"/>
+		FROM
+			app_job j
+		WHERE
+			j.is_deleted = 'n'
+		AND j.job_group = #{groupName}
+		AND j.job_name = #{jobName}
+	</select>
+	
+	<select id="lockById" resultMap="BaseResultMap">
+		SELECT
+			<include refid="Base_Column_List"/>
+		FROM
+			app_job j
+		WHERE
+			j.is_deleted = 'n'
+		AND j.id = #{id}
+		FOR UPDATE
+	</select>
+</mapper>

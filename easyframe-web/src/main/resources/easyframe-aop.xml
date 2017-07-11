@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns="http://www.springframework.org/schema/beans"
+	xsi:schemaLocation="
+           http://www.springframework.org/schema/aop   http://www.springframework.org/schema/aop/spring-aop-3.2.xsd
+           http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+       ">
+	<!-- AOP注入，实现每次插入到数据库都有前五个固定参数 -->
+	<bean id="dalAop" class="com.zark.easyframe.biz.common.aop.DalAop" />
+	<!-- AOP注入，实现记录日志 -->
+	<bean id="operLogAop" class="com.zark.easyframe.biz.common.aop.OperLogAop"></bean>
+	<!-- 方法缓存 -->
+	<bean id="methodCacheAop" class="com.zark.easyframe.biz.common.aop.MethodCacheAop"
+		scope="session" />
+
+	<aop:config>
+		<aop:aspect ref="dalAop">
+			<aop:before method="beforeInsert"
+				pointcut="execution(* com.zark.*.*.mapper.*.insert*(..))" />
+			<aop:before method="beforeInsert"
+				pointcut="execution(* com.zark.*.*.mapper.*.save*(..))" />
+			<aop:before method="beforeInsert"
+				pointcut="execution(* com.zark.*.*.mapper.*.add*(..))" />
+			<aop:before method="beforeUpdate"
+				pointcut="execution(* com.zark.*.*.mapper.*.update*(..))" />
+			<aop:before method="beforeUpdate"
+				pointcut="execution(* com.zark.*.*.mapper.*.remove*(..))" />
+			<aop:before method="beforeUpdate"
+				pointcut="execution(* com.zark.*.*.mapper.*.del*(..))" />
+		</aop:aspect>
+
+		<aop:aspect ref="operLogAop">
+			<!-- execution(* com.zark.easyframe.biz.*.bo.impl.*.*(..)) -->
+			<aop:around method="doAround"
+				pointcut="@annotation(com.zark.easyframe.biz.common.annotation.OperLog)" />
+		</aop:aspect>
+
+		<aop:aspect ref="methodCacheAop">
+			<aop:around method="doAround"
+				pointcut="@annotation(com.zark.easyframe.biz.common.methodcache.annotation.MethodCache) and execution(* com.zark.easyframe.biz.*.bo.impl.*.*(..))" />
+		</aop:aspect>
+	</aop:config>
+</beans>

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+	<group>
+		<property name="easyframe.home" defaultValue="C:/zc/workspace/my/easyframe"
+			description="项目路径" />
+		<property name="easyframe.output" defaultValue="${easyframe.home}/easyframe-output"
+			description="项目文件输出路径" />
+		<property name="loggingLevel" defaultValue="debug"
+			description="日志级别" />
+		<property name="loggingRoot" defaultValue="${easyframe.output}/logs"
+			description="日志路径" />
+		<property name="loggingCharset" defaultValue="UTF-8"
+			description="日志编码" />
+			
+			
+		<property name="jsCssServer" defaultValue="http://localhost:8090"
+					description="前端服务器地址" />
+		<!-- 数据库连接 -->
+		<property name="jdbc.jdbcUrl" defaultValue="jdbc:mysql://localhost:3306/easyframe"
+			description="数据库连接地址"></property>
+		<property name="jdbc.user" defaultValue="root" description="用户名"></property>
+		<property name="jdbc.password" defaultValue="zc" description="密码"></property>
+		<property name="jdbc.driverClass" defaultValue="com.mysql.jdbc.Driver"
+			description="驱动类"></property>
+		<property name="c3p0.minPoolSize" defaultValue="5"
+			description="c3p0配置"></property>
+		<property name="c3p0.initialPoolSize" defaultValue="5"
+			description="c3p0配置"></property>
+		<property name="c3p0.acquireIncrement" defaultValue="5"
+			description="c3p0配置"></property>
+		<property name="c3p0.maxIdleTime" defaultValue="3600"
+			description="c3p0配置"></property>
+		<property name="c3p0.idleConnectionTestPeriod" defaultValue="3600"
+			description="c3p0配置"></property>
+		<property name="c3p0.preferredTestQuery" defaultValue="select 1"
+			description="c3p0配置"></property>
+		<!-- spring job配置 -->
+		<property name="myJob.cronExpression" defaultValue="0 0/5 * * * ?"
+			description="spring job 测试"></property>
+		<!-- mail配置 -->
+		<property name="mail.sender" defaultValue="18274948638@163.com"
+			description="发送者"></property>
+		<property name="mail.host" defaultValue="smtp.163.com"
+			description="host"></property>
+		<property name="mail.username" defaultValue="18274948638@163.com"
+			description="用户名"></property>
+		<property name="mail.password" defaultValue="mylzabkdcsehejho"
+			description="密码"></property>
+
+		<!-- metaq pub -->
+		<property name="easyframe.metaq.group" defaultValue="easyframeMetaQGroup"
+			description="Group"></property>
+		<property name="easyframe.metaq.topic" defaultValue="easyframeMetaQTopic"
+			description="Topic"></property>
+		<property name="easyframe.metaq.group.pub" defaultValue="easyframe_metaq_group"
+			description="metaq组"></property>
+		<property name="easyframe.metaq.namesrvAddr.pub"
+			defaultValue="127.0.0.1:9876" description="nameservice address"></property>
+		<property name="easyframe.metaq.vipChannelEnabled.pub"
+			defaultValue="false" description="VIP通道"></property>
+		<!-- metaq sub -->
+		<property name="easyframe.metaq.group.sub" defaultValue="easyframe_metaq_group"
+			description="metaq组"></property>
+		<property name="easyframe.metaq.namesrvAddr.sub"
+			defaultValue="127.0.0.1:9876" description="nameservice address"></property>
+		<property name="easyframe.metaq.vipChannelEnabled.sub"
+			defaultValue="false" description="VIP通道"></property>
+
+	</group>
+	<script>
+		<generate template="base.xml.vm" destfile="WEB-INF/classes/base.xml"
+			charset="UTF-8" />
+		<generate template="datasource.xml.vm" destfile="WEB-INF/classes/datasource.xml"
+			charset="UTF-8" />
+		<generate template="easyframe-job.xml.vm" destfile="WEB-INF/classes/easyframe-job.xml"
+			charset="UTF-8" />
+		<generate template="easyframe-message.xml.vm" destfile="WEB-INF/classes/easyframe-message.xml"
+			charset="UTF-8" />
+		<generate template="logback.xml.vm" destfile="WEB-INF/classes/logback.xml"
+			charset="UTF-8" />
+		<generate template="biz-metaq-pub.xml.vm" destfile="WEB-INF/classes/biz-metaq-pub.xml"
+			charset="UTF-8" />
+		<generate template="biz-metaq-sub.xml.vm" destfile="WEB-INF/classes/biz-metaq-sub.xml"
+			charset="UTF-8" />
+	</script>
+</config>
+

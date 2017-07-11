@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.springframework.org/schema/beans"
+	xsi:schemaLocation="
+           http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+       "
+	default-autowire="byName">
+	<bean class="com.zark.easyframe.biz.common.bo.impl.UserBoImpl"></bean>
+	<bean class="com.zark.easyframe.biz.common.bo.impl.LockBoImpl"></bean>
+	<!-- 批量操作数据库配置 -->
+	<bean class="com.zark.easyframe.biz.common.utils.DBUtil">
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+	<bean class="com.zark.easyframe.biz.common.dataprodiver.EmployeeDataProdiver"></bean>
+	<bean class="com.zark.easyframe.biz.common.quartz.QuartzManager"></bean>
+	<bean class="com.zark.easyframe.biz.common.bo.impl.JobBoImpl"></bean>
+	<bean class="com.zark.easyframe.biz.common.bo.impl.MessageBoImpl"></bean>
+	<bean class="com.zark.easyframe.biz.common.bo.impl.MessageReceiverBoImpl"></bean>
+	<bean class="com.zark.easyframe.biz.common.notify.NotifyMessagePublisher"></bean>
+	<bean class="com.zark.easyframe.biz.common.bo.impl.OperLogBoImpl"></bean>
+	<bean class="com.zark.easyframe.biz.common.bo.impl.JobStatusBoImpl"></bean>
+	<bean class="com.zark.easyframe.biz.common.job.JobExecuteHelper"></bean>
+</beans>
