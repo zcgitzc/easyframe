@@ -29,7 +29,7 @@
 		<!-- autoconfig版本 -->
 		<autoconfig-plugin-version>1.2</autoconfig-plugin-version>
 		<!-- hibernate验证框架版本 -->
-		<hibernate.validator.version>5.1.1.Final</hibernate.validator.version>
+		<hibernate.validator.version>5.3.5.Final</hibernate.validator.version>
 		<!-- rocketmetaq 版本 -->
 		<rocketmq.version>3.6.2.Final</rocketmq.version>
 		<!-- databind 版本 -->
