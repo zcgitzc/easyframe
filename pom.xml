@@ -41,7 +41,7 @@
 		<!-- quartz 版本 -->
 		<quartz.version>2.2.1</quartz.version>
 		<!-- fastjson.version版本 -->
-		<fastjson.version>1.2.31</fastjson.version>
+		<fastjson.version>1.2.83</fastjson.version>
 	</properties>
 
 	<dependencyManagement>
