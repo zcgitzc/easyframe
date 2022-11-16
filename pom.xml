@@ -33,7 +33,7 @@
 		<!-- rocketmetaq 版本 -->
 		<rocketmq.version>3.6.2.Final</rocketmq.version>
 		<!-- databind 版本 -->
-		<databind.version>2.3.2</databind.version>
+		<databind.version>2.12.7.1</databind.version>
 		<!-- velocity版本 -->
 		<velocity.version>1.7</velocity.version>
 		<!-- javax.mail版本 -->
